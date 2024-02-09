@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const z = require("zod");
 const { User, Account } = require("../db");
-const JWT_SECRET = require("../config");
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middleware");
 
@@ -48,7 +48,7 @@ router.post("/signup", async (req, res) => {
       userId,
       balance: (1 + Math.random() * 10000).toFixed(2),
     });
-    const token = jwt.sign({ userId }, JWT_SECRET);
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET);
     res.status(200).json({
       message: "User created successfully",
       token: token,
@@ -75,7 +75,7 @@ router.post("/signin", async (req, res) => {
 
     const userId = user._id;
 
-    const token = jwt.sign({ userId }, JWT_SECRET);
+    const token = jwt.sign({ userId }, process.env.JWT_SECRET);
     res.status(200).json({ token: token });
   } catch (error) {
     res.status(500).json({ msg: "Internal Server Error" });

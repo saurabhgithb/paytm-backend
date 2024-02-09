@@ -3,7 +3,7 @@ const router = express.Router();
 
 const UserRouter = require("./user");
 const AccountRouter = require("./account");
-const JWT_SECRET = require("../config");
+require("dotenv").config();
 const jwt = require("jsonwebtoken");
 const { User } = require("../db");
 
@@ -23,7 +23,7 @@ router.get("/me", async (req, res) => {
       res.status(403).json({ message: "Invalid Token" });
       return;
     }
-    const decoded = jwt.verify(token, JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findOne({ _id: decoded.userId });
     res.json({
       user: {
