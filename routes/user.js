@@ -54,7 +54,7 @@ router.post("/signup", async (req, res) => {
       token: token,
     });
   } catch (error) {
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
     console.log(error);
   }
 });
@@ -76,9 +76,9 @@ router.post("/signin", async (req, res) => {
     const userId = user._id;
 
     const token = jwt.sign({ userId }, process.env.JWT_SECRET);
-    res.status(200).json({ token: token });
+    res.status(200).json({ token: token, message: "Login Successful" });
   } catch (error) {
-    res.status(500).json({ msg: "Internal Server Error" });
+    res.status(500).json({ message: "Internal Server Error" });
     console.log(error);
   }
 });
